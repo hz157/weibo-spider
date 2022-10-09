@@ -6,7 +6,7 @@
 > <br> 获取Cookie的方法 -> <a href="#">获取Cookie方式说明</a>
 > 
 1. Clone <a href="/source">source</a>内的代码到本地后,修改cookie.json<br>
-![image](images/20221009145920.png)
+![image](../images/20221009145920.png)
 2. 使用python执行命令
 ```
 python index.py
