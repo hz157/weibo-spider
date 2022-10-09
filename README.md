@@ -7,10 +7,12 @@
 ## 说明
 
 当前Google/Baidu当中搜索到的大部分Sina Spider Script都已无法使用（新浪接口停用等众多原因），因一好友的项目需使用到spider获取部分微博数据，故创建此仓库。希望能够帮助到一些人爬取微博数据。 
+- <a href="/doc/instructions.md">instructions </a>使用说明
 
 ## 目录
 - <a href="/doc">doc </a>说明文档
 - <a href="/source">source </a>脚本代码
+
 
 
 ## 文档
