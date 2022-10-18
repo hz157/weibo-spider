@@ -69,8 +69,12 @@ if __name__ == '__main__':
             # Prevent repetition
             try:
                 if tmp not in detail:
-                    folder = SaveFile.Folder(tmp)
-                    tmp.append(folder)
+                    # Judge whether you have a picture or not
+                    if tmp[6]:
+                        folder = SaveFile.Folder(tmp)
+                        tmp.append(folder)
+                    else:
+                        tmp.append('')
                     detail.append(tmp)
             except:
                 print("Error, Maybe the folder already exists")
