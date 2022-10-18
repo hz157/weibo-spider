@@ -12,6 +12,7 @@
 from bs4 import BeautifulSoup
 import requests
 import json
+import Clean
 
 
 def getArt(mid, cookie):
@@ -35,7 +36,7 @@ def getArt(mid, cookie):
     verified = jsonData.get("status").get("user").get("verified")
     verifiedType = jsonData.get("status").get("user").get("verified_type")
     verifiedReason = jsonData.get("status").get("user").get("verified_reason")
-    content = jsonData.get("status").get("text")
+    content = Clean.cleanAll(jsonData.get("status").get("text"))
     picList = jsonData.get("status").get("pic_ids")
     # result list
     result = [mid, userName, verified, verifiedType, verifiedReason, content, picList]
