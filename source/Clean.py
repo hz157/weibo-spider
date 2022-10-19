@@ -94,7 +94,3 @@ def cleanLabel(data):
 def cleanAll(data):
     return cleanTopic(replace(cleanAt(cleanEmoji(cleanBracket(cleanLabel(data))))))
 
-
-if __name__ == '__main__':
-    print(cleanBracket(
-        """超爱贝雷帽<br />厦门那几天大风，🍂用小夹子固定住的贝雷帽，仍怎么吹，都不掉<span class="url-icon"><img alt=[打call] src="https://h5.sinaimg.cn/m/emoticon/icon/default/fb_a1dacall-1e0c4593fc.png" style="width:1em; height:1em;" /></span><span class="url-icon"><img alt="[开学季]" src="https://face.t.sinajs.cn/t4/appstyle/expression/ext/normal/72/2021_kaixueji_org.png" style="width:1em; height:1em;" /></span> """))
