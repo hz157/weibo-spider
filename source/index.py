@@ -70,7 +70,7 @@ if __name__ == '__main__':
             try:
                 if tmp not in detail:
                     # Judge whether you have a picture or not
-                    if tmp[6]:
+                    if tmp[7]:
                         folder = SaveFile.Folder(tmp)
                         tmp.append(folder)
                     else:
