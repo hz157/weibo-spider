@@ -17,15 +17,15 @@ import requests
 def Folder(data):
     folderPath = os.getcwd() + "/Spider/{}_{}".format(data[1], data[0])
     os.makedirs(folderPath)
-    if data[6]:
-        downloadImage(folderPath, data[6])
+    if data[7]:
+        downloadImage(folderPath, data[7])
     return folderPath
 
 # Data saving CSV
 def CSV(data):
     # Get Now datetime
     now = datetime.datetime.today().strftime("%Y_%m_%d_%H_%M")
-    csvTitle = ['mid', 'userName', 'verified', 'verifiedType', 'verifiedReason', 'content', 'picList', 'path']
+    csvTitle = ['mid', 'userName', 'verified', 'verifiedType', 'verifiedReason', 'createTime', 'content', 'picList', 'path']
     path = os.getcwd() + "/" + now + ".csv"
     # No newline will result in blank lines
     with open(path, mode="w", encoding="utf-8-sig", newline="") as f:
