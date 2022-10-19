@@ -25,6 +25,7 @@ def Folder(data):
 def CSV(data):
     # Get Now datetime
     now = datetime.datetime.today().strftime("%Y_%m_%d_%H_%M")
+    # 2022-10-19 Update List
     csvTitle = ['mid', 'userName', 'verified', 'verifiedType', 'verifiedReason', 'createTime', 'content', 'picList', 'path']
     path = os.getcwd() + "/" + now + ".csv"
     # No newline will result in blank lines
@@ -36,7 +37,8 @@ def CSV(data):
         # Write csv Data (every row)
         write.writerows(data)
     print("Finish the work，CSV File Path: {}".format(path))
-    
+
+
 # Weibo Image Download
 def downloadImage(path, list):
     for i in list:
