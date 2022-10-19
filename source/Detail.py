@@ -7,12 +7,13 @@
 @Author: RyanZhang
 @Date: 2022-10-08
 """
-
+import datetime
 
 from bs4 import BeautifulSoup
 import requests
 import json
 import Clean
+import ConvertTime
 
 
 def getArt(mid, cookie):
@@ -36,12 +37,11 @@ def getArt(mid, cookie):
     verified = jsonData.get("status").get("user").get("verified")
     verifiedType = jsonData.get("status").get("user").get("verified_type")
     verifiedReason = jsonData.get("status").get("user").get("verified_reason")
+    createTime = ConvertTime.convert(jsonData.get("status").get("created_at"))
     content = Clean.cleanAll(jsonData.get("status").get("text"))
     picList = jsonData.get("status").get("pic_ids")
     # result list
-    result = [mid, userName, verified, verifiedType, verifiedReason, content, picList]
+    result = [mid, userName, verified, verifiedType, verifiedReason, createTime, content, picList]
     return result
-
-
 
 
