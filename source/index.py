@@ -16,11 +16,12 @@ from bs4 import BeautifulSoup
 
 pc_cookie = ""
 mobile_cookie = ""
+allPage = 2
+
 
 # Get the function of the page blog
-def getMids(keyword, pageNum):
-    # Prompt
-    print("Working--keyword: {} --page: {}".format(keyword,pageNum))
+def getMids(keyword, pageNum=1):
+    global allPage
     # Construct request address
     url = "https://s.weibo.com/weibo?q={}&page={}".format(keyword, pageNum)
     # Request data message header
@@ -39,6 +40,9 @@ def getMids(keyword, pageNum):
     soup = BeautifulSoup(htmlData, features="html.parser")
     # Find DIV
     div = soup.findAll("div", attrs={"action-type": "feed_list_item"})
+    if pageNum == 1:
+        page = str(soup.findAll("ul", attrs={"action-type": "feed_list_page_morelist"})).split('\n')
+        allPage = len(page)-2
     # Get posts MID (similar to UUID)
     for i in div:
         mid = i.get("mid")
@@ -46,21 +50,25 @@ def getMids(keyword, pageNum):
     return mids
 
 
-# This Test Code Need to delete
-
 if __name__ == '__main__':
     # Get the PC side Cookie
     print("Please Input Search keyword")
     keyword = input()
-    num = -1
-    while num < 1:
-        print("Please Input Search Page Number >=1")
-        num = eval(input())
+    # num = -1
+    # while num < 1:
+    #     print("Please Input Search Page Number >=1")
+    #     num = eval(input())
     pc_cookie = GetConfig.getCookie("pc")
     mobile_cookie = GetConfig.getCookie("mobile")
     detail = []
-    for i in range(1, num + 1):
-        for j in getMids(keyword, i):
+    curr = 1
+    while curr < allPage:
+        mids = getMids(keyword, curr)
+        if curr == 1:
+            print(f"Keyword: {keyword}, Total Page Number: {allPage} Press any key to continue\n")
+            listen = input()
+        print("Working--keyword: {} --page: {}".format(keyword, curr))
+        for j in mids:
             try:
                 tmp = Detail.getArt(j, mobile_cookie)
             except:
@@ -78,4 +86,6 @@ if __name__ == '__main__':
                     detail.append(tmp)
             except:
                 print("Error, Maybe the folder already exists")
+        curr = curr + 1
     SaveFile.CSV(detail)
+
