@@ -7,6 +7,8 @@ Author:Ryan Zhang
 
 > 此python文件用于将视频格式文件转换为图片格式，默认采用视频帧率进行逐秒转换
 
+## 文件链接
+[Video2Img.py](https://github.com/hz157/weibo-spider/blob/main/source/Video2Img.py)
 ## 所需第三方库
 该程序使用到open-cv的图像识别库
 安装命令
