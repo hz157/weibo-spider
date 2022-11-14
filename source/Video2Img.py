@@ -17,11 +17,11 @@ def v2i(path=os.path.join(os.getcwd(), "video")):
     files_list = os.listdir(path)
     for file in files_list:
         cap = cv2.VideoCapture(os.path.join(os.getcwd(), 'video', file))
-        # 帧率(fps)
+        # video fps
         fps = cap.get(cv2.CAP_PROP_FPS)
-        # 总帧数(frames)
+        # video frames
         frames = cap.get(cv2.CAP_PROP_FRAME_COUNT)
-        # 生成文件夹
+        # create folder
         if not os.path.exists(file):
             os.makedirs(file)
         index = 0
