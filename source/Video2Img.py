@@ -9,7 +9,6 @@
 """
 
 import cv2
-import numpy
 import os
 
 
@@ -30,11 +29,11 @@ def v2i(path=os.path.join(os.getcwd(), "video")):
             index += 1
             # print(f"fps:{index}")
             if index == int(frames) or index == 1:
-                prefix = str(index).zfill(5) + ".png"
+                prefix = str(index).zfill(8) + ".png"
                 cv2.imwrite(os.path.join(file, prefix), image)
             elif index < int(frames):
                 if index % int(fps) == 0:
-                    prefix = str(index).zfill(5) + ".png"
+                    prefix = str(index).zfill(8) + ".png"
                     cv2.imwrite(os.path.join(file, prefix), image)
                     # cv2.imshow("video",image)
             elif index > frames:
