@@ -11,6 +11,7 @@
 import re
 
 
+# 清理微博话题
 def cleanTopic(data):
     try:
         start = data.index('#')
@@ -22,11 +23,13 @@ def cleanTopic(data):
         return data
 
 
+# 清理ZWSP 空格
 def replace(data):
     result = data.replace('ZWSP', '').replace('<br />', ' ').replace('<br>', ' ')
     return result
 
 
+# 清理At用户选项
 def cleanAt(data):
     try:
         start = data.index('@')
@@ -38,12 +41,7 @@ def cleanAt(data):
         return data
 
 
-# def cleanEmoji(data):
-#     # Filter characters other than Chinese, English and numbers
-#     res = re.compile("[^\\u4e00-\\u9fa5^a-z^A-Z^0-9]")
-#     return res.sub('', data)
-
-
+# 清理Emoji表情
 def cleanEmoji(data):
     # Filter facial expressions
     try:
@@ -53,6 +51,7 @@ def cleanEmoji(data):
     return co.sub('', data)
 
 
+# 清理<a>HTML标签
 def cleanALabel(data):
     try:
         start = data.index('<a')
@@ -64,6 +63,7 @@ def cleanALabel(data):
         return data
 
 
+# 清理<Span>HTML标签
 def cleanSpanLabel(data):
     try:
         start = data.index('<span')
