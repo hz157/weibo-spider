@@ -12,6 +12,9 @@ import requests
 import GetConfig
 import Detail
 import SaveFile
+import Sql
+import jieba
+import threading
 from bs4 import BeautifulSoup
 
 pc_cookie = ""
@@ -42,50 +45,46 @@ def getMids(keyword, pageNum=1):
     div = soup.findAll("div", attrs={"action-type": "feed_list_item"})
     if pageNum == 1:
         page = str(soup.findAll("ul", attrs={"action-type": "feed_list_page_morelist"})).split('\n')
-        allPage = len(page)-2
+        allPage = len(page) - 2
     # Get posts MID (similar to UUID)
     for i in div:
         mid = i.get("mid")
         mids.append(mid)
     return mids
 
+extentWord = {}
 
-if __name__ == '__main__':
-    # Get the PC side Cookie
-    print("Please Input Search keyword")
-    keyword = input()
-    # num = -1
-    # while num < 1:
-    #     print("Please Input Search Page Number >=1")
-    #     num = eval(input())
+def main(keyword):
+    global pc_cookie, mobile_cookie
     pc_cookie = GetConfig.getCookie("pc")
     mobile_cookie = GetConfig.getCookie("mobile")
-    detail = []
     curr = 1
     while curr < allPage:
         mids = getMids(keyword, curr)
         if curr == 1:
             print(f"Keyword: {keyword}, Total Page Number: {allPage} Press any key to continue\n")
-            listen = input()
         print("Working--keyword: {} --page: {}".format(keyword, curr))
         for j in mids:
-            try:
-                tmp = Detail.getArt(j, mobile_cookie)
-            except:
-                print("Error, Could be a page overflow.")
-                pass
             # Prevent repetition
             try:
-                if tmp not in detail:
-                    # Judge whether you have a picture or not
+                tmp = Detail.getArt(j, mobile_cookie)
+                if not Sql.verifMid(tmp[0]):
                     if tmp[7]:
+                        # 创建文件夹
                         folder = SaveFile.Folder(tmp)
                         tmp.append(folder)
                     else:
                         tmp.append('')
-                    detail.append(tmp)
+                    Sql.writeData(tmp, keyword)
             except:
                 print("Error, Maybe the folder already exists")
         curr = curr + 1
-    SaveFile.CSV(detail)
+
+
+
+if __name__ == '__main__':
+    # Get the PC side Cookie
+    print("Please Input Search keyword")
+    keyword = input()
+    main(keyword)
 
