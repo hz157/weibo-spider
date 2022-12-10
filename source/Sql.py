@@ -1,3 +1,5 @@
+import os.path
+import json
 import pymysql
 
 
@@ -5,7 +7,7 @@ def connect():
     conn = pymysql.connect(
         host='gis.test.cn',
         user='gis',
-        passwd='123456',
+        passwd='SiPXnZmNDWkcaSJk',
         db='gis',
         port=3306,
         charset="utf8")
@@ -43,13 +45,22 @@ def insertPic(mid, picPath):
     con.close()
     print(cursor.rowcount, "record inserted.")
 
+def insertVideo(mid, vidPath):
+    con = connect()
+    cursor = con.cursor()
+    sql = f"INSERT INTO video (mid, path) VALUES ({mid}, '{vidPath}')"
+    try:
+        # 执行sql语句
+        cursor.execute(sql)
+        # 提交到数据库执行
+        con.commit()
+    except:
+        # Rollback in case there is any error
+        con.rollback()
+    con.close()
+    print(cursor.rowcount, "record inserted.")
 
-def writeData(data,keyword):
-    # for i in data:
-    for i in data[7]:
-        path = data[8] + "/" + i
-        insertPic(data[0], path)
-    insertData(data, keyword)
+
 
 def verifMid(mid):
     con = connect()
@@ -69,3 +80,4 @@ def verifMid(mid):
         # Rollback in case there is any error
         con.close()
         return False
+
