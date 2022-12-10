@@ -13,8 +13,8 @@ import GetConfig
 import Detail
 import SaveFile
 import Sql
-import jieba
 import threading
+import Video2Img
 from bs4 import BeautifulSoup
 
 pc_cookie = ""
@@ -66,18 +66,28 @@ def main(keyword):
         print("Working--keyword: {} --page: {}".format(keyword, curr))
         for j in mids:
             # Prevent repetition
-            try:
+            # try:
+            # 查询数据库中是否有这条数据，没有再写入
+            if not Sql.verifMid(j):
+                # 获取具体信息
                 tmp = Detail.getArt(j, mobile_cookie)
-                if not Sql.verifMid(tmp[0]):
-                    if tmp[7]:
-                        # 创建文件夹
-                        folder = SaveFile.Folder(tmp)
-                        tmp.append(folder)
-                    else:
-                        tmp.append('')
-                    Sql.writeData(tmp, keyword)
-            except:
-                print("Error, Maybe the folder already exists")
+                folder = SaveFile.Folder(tmp[0])
+                tmp.append(folder)
+                # 判断是否有媒体文件，图片或视频
+                if tmp[7]:
+                    SaveFile.downloadImage(folder, tmp[7])
+                    for p1 in tmp[7]:
+                        Sql.insertPic(tmp[0], str(p1))
+                    Sql.insertPic(tmp[0], tmp[9] + "/{}.png".format(p1))
+                if tmp[8]:
+                    SaveFile.downloadVideo(folder, tmp[8])
+                    fps_list = Video2Img.v2i(folder)
+                    Sql.insertVideo(tmp[0], tmp[9] + "/video.mp4")
+                    for p2 in fps_list:
+                        Sql.insertPic(tmp[0], tmp[9] + "/{}.png".format(p2))
+                Sql.insertData(tmp, keyword)
+            # except:
+            #     print("Error, Maybe the folder already exists")
         curr = curr + 1
 
 
