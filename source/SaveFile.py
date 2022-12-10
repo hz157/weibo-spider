@@ -10,22 +10,21 @@
 import datetime
 import os
 import requests
-# import csv
+import urllib
 
 
 # 建立存储图片的文件夹
-def Folder(data):
+def Folder(mid):
     # 今日日期
     today = datetime.datetime.now().strftime("%Y-%m-%d")
     # 相对路径
-    relativePath = f"/{today}/{data[0]}"
+    relativePath = f"{today}/{mid}"
     # 绝对路径
-    folderPath = os.getcwd() + relativePath
+    folderPath = os.path.join(os.getcwd(), relativePath)
+    print(folderPath)
     # 判断文件夹是否存在
     if not os.path.exists(folderPath):
         os.makedirs(folderPath)
-        if data[7]:
-            downloadImage(folderPath, data[7])
     return relativePath
 
 # 下载图片
@@ -33,9 +32,11 @@ def downloadImage(path, list):
     for i in list:
         IMAGE_URL = "https://wx3.sinaimg.cn/large/{}.jpg".format(i)
         r = requests.get(IMAGE_URL)
-        with open(path + '/{}.jpg'.format(i), 'wb') as f:
+        with open(os.path.join(path, '{}.png'.format(i)), 'wb') as f:
             f.write(r.content)
 
+def downloadVideo(path, url):
+    urllib.request.urlretrieve(url, os.path.join(path, "video.mp4"))
 
 # CSV写入方法已废弃
 # 数据写入已于2022年11月17日转移至WriteSql，通过MySQL数据库存储数据，保证数据可用性
