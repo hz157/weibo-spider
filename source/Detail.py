@@ -40,8 +40,12 @@ def getArt(mid, cookie):
     createTime = ConvertTime.convert(jsonData.get("status").get("created_at"))
     content = Clean.cleanAll(jsonData.get("status").get("text"))
     picList = jsonData.get("status").get("pic_ids")
+    try:
+        videoUrl = jsonData.get("status").get("page_info").get("urls").get("mp4_hd_mp4")
+    except:
+        videoUrl = ""
     # result list
-    result = [mid, userName, verified, verifiedType, verifiedReason, createTime, content, picList]
+    result = [mid, userName, verified, verifiedType, verifiedReason, createTime, content, picList, videoUrl]
     return result
 
 
