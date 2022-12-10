@@ -11,31 +11,28 @@
 import cv2
 import os
 
-
-def v2i(path=os.path.join(os.getcwd(), "video")):
-    files_list = os.listdir(path)
-    for file in files_list:
-        cap = cv2.VideoCapture(os.path.join(os.getcwd(), 'video', file))
-        # video fps
-        fps = cap.get(cv2.CAP_PROP_FPS)
-        # video frames
-        frames = cap.get(cv2.CAP_PROP_FRAME_COUNT)
-        # create folder
-        if not os.path.exists(file):
-            os.makedirs(file)
-        index = 0
-        while cv2.waitKey(0):
-            retval, image = cap.read()
-            index += 1
-            # print(f"fps:{index}")
-            if index == int(frames) or index == 1:
+def v2i(path):
+    cap = cv2.VideoCapture(os.path.join(path, "video.mp4"))
+    # video fps
+    fps = cap.get(cv2.CAP_PROP_FPS)
+    # video frames
+    frames = cap.get(cv2.CAP_PROP_FRAME_COUNT)
+    index = 0
+    fps_list = []
+    while cv2.waitKey(0):
+        retval, image = cap.read()
+        index += 1
+        # print(f"fps:{index}")
+        if index == int(frames) or index == 1:
+            prefix = str(index).zfill(8) + ".png"
+            cv2.imwrite(os.path.join(path, prefix), image)
+            fps_list.append(index)
+        elif index < int(frames):
+            if index % int(fps) == 0:
                 prefix = str(index).zfill(8) + ".png"
-                cv2.imwrite(os.path.join(file, prefix), image)
-            elif index < int(frames):
-                if index % int(fps) == 0:
-                    prefix = str(index).zfill(8) + ".png"
-                    cv2.imwrite(os.path.join(file, prefix), image)
-                    # cv2.imshow("video",image)
-            elif index > frames:
-                break
+                cv2.imwrite(os.path.join(path, prefix), image)
+                fps_list.append(index)
+        elif index > frames:
+            break
+    return fps_list
 
